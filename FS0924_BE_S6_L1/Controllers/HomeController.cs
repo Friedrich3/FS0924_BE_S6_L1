@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using FS0924_BE_S6_L1.Models;
+using FS0924_BE_S6_L1.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FS0924_BE_S6_L1.Controllers

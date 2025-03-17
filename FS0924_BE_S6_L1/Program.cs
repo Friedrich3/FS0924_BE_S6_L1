@@ -1,7 +1,16 @@
+using FS0924_BE_S6_L1.Data;
+using FS0924_BE_S6_L1.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<PraticaS6L1>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<StudentiServices>();
+
 
 var app = builder.Build();
 

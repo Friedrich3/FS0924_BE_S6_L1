@@ -1,4 +1,4 @@
-namespace FS0924_BE_S6_L1.Models
+namespace FS0924_BE_S6_L1.ViewModel
 {
     public class ErrorViewModel
     {
