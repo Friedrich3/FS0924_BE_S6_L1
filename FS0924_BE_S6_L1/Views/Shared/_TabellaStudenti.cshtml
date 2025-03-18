@@ -1,0 +1,45 @@
+﻿@model List<Studente>
+
+
+@if(Model != null && Model.Count > 0){
+
+
+<table id="TabellaStudenti" class="table table-striped" >
+    <thead>
+        <tr>
+            <th>Cognome</th>
+            <th >Nome</th>
+            <th >Email</th>
+            <th >Data di Nascita</th>
+            <th >Matricola</th>
+            <th >Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model){
+        <tr>
+            <td>@item.Cognome</td>
+            <td>@item.Nome</td>
+            <td>@item.Email</td>
+            <td>@item.DataDiNascita</td>
+            <td>@item.StudenteId</td>
+			<td>
+						<div>
+							<button class="btn btn-warning fw-bold" onclick="showEditModal('@item.StudenteId')">Edit</button>
+                            <button class="btn btn-danger fw-bold" onclick="showDeleteModal('@item.StudenteId')">Delete</button>
+						</div>
+			</td>
+        </tr>
+
+        }
+
+       
+    </tbody>
+</table>
+}
+else{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error 404!</strong> La tabella degli studenti e' vuota.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}

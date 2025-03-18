@@ -1,0 +1,31 @@
+﻿@model StudenteEditViewModel;
+
+
+<form id="editForm">
+    <input hidden asp-for="StudenteId" />
+	<div class="row">
+		<div class="mb-3 col-3">
+			<label for="editName" class="form-label" asp-for="Nome"></label>
+			<input id="editName" type="text" class="form-control" asp-for="Nome" required/>
+		</div>
+		<div class="mb-3 col-3">
+			<label for="editSurname" class="form-label" asp-for="Cognome"></label>
+			<input id="editSurname" type="text" class="form-control" asp-for="Cognome" required />
+		</div>
+	</div>
+	<div class="mb-3">
+		<label for="editEmail" class="form-label" asp-for="Email"></label>
+		<input id="editEmail" type="email" class="form-control" asp-for="Email" required />
+	</div>
+	<div class="mb-3">
+		<label for="editBday" class="form-label" >Data di Nascita</label>
+		<input id="editBday" type="date" class="form-control" asp-for="DataDiNascita" required />
+	</div>
+	<div>
+	<button class="btn btn-success" type="button" onclick="sendEdit()">Modifica!</button>
+	<button class="btn btn-outline-secondary" type="reset">Reset</button>
+	</div>
+</form>
+
+
+

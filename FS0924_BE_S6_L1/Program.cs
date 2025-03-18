@@ -10,6 +10,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PraticaS6L1>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<StudentiServices>();
+builder.Services.AddScoped<LoggerServices>();
+
+LoggerServices.ConfigureLogger();
 
 
 var app = builder.Build();

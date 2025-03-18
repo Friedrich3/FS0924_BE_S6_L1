@@ -1,5 +1,169 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Studente>
+
 @{
+    ViewData["Title"] = "Tabella Studenti";
+}
+
+
+<div class="container">
+    <div class="row">
+        <h3>Tabella Studenti</h3>
+    </div>
+    <div class="row">
+        <div id="tableContainer"></div>
+    </div>
+
+</div>
+
+
+
+@* EDIT INSERIMENTO *@
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editModalTitle">Edit Student</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="editModalBody">
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+@* DELETEMODAL *@
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Delete Studente</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>Vuoi davvero cancellare questo elemento?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-danger" id="deleteButton">Elimina</button>
+				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Chiudi</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+@section Scripts{
+	<script>
+		//Aggiungi un eventListener che si loadda al caricamento Del DOM
+		document.addEventListener("DOMContentLoaded", () =>{
+			  getTable();
+		});
+			async function getTable(){
+			const tabellaStudenti = document.getElementById("tableContainer");
+			if(!tabellaStudenti){ return }
+			try{
+
+			let response = await fetch("Studenti/Studenti-All",{
+				method: "GET"
+			})
+			if(response.ok){
+				let result = await response.text();
+				tabellaStudenti.innerHTML = result;
+				new DataTable("#TabellaStudenti", {
+						ordering: true,
+						responsive: true,
+						columnDefs: [
+							{
+								orderable: true
+							}
+						]
+					})
+			}else{
+				throw new Error("errore")
+			};
+			}catch(error)
+			{
+				console.log(error)
+			}
+		};
+
+			async function showEditModal(studentId) {
+			try {
+				let data = await fetch(`Studenti/GetStudent/${studentId}`)
+				if (data.ok) {
+				let response = await data.text();
+					const modale = document.getElementById('editModal');
+					if (modale) {
+						let modaleEdit = new bootstrap.Modal(modale);
+						let bodyEdit = document.getElementById("editModalBody")
+						if (bodyEdit) {
+							bodyEdit.innerHTML = response;
+						}
+						modaleEdit.show();
+					}}
+			} catch {
+
+			}
+			}
+
+			async function sendEdit(){
+				const form = document.getElementById("editForm");
+
+				const formData = new FormData(form)
+
+				try{
+					let result = await fetch("Studenti/Edit/Save",{
+						method:"POST",
+						body: formData
+					})
+					let response = await result.json();
+					if(response.success){
+						const modale = document.getElementById('editModal');
+						if(modale){
+
+						 const editModalInstance = bootstrap.Modal.getInstance(modale);
+						editModalInstance.hide();
+						getTable();
+						}
+					}
+					
+				}catch{
+
+				}
+
+			};
+
+			function showDeleteModal(studentId){
+				const modale = document.getElementById('deleteModal');
+					if (modale) {
+						let modaleDelete = new bootstrap.Modal(modale);
+						modaleDelete.show();
+						let deleteButton = document.getElementById("deleteButton")
+						if(deleteButton){
+							deleteButton.onclick = () => deleteStudent(studentId);
+						}
+					}
+
+			}
+
+			async function deleteStudent(studentId){
+				let result = await fetch(`Studenti/Delete/${studentId}`,{
+					method:"POST"
+				})
+				let response = await result.json();
+				if(response.success){
+					const modale = document.getElementById('deleteModal');
+						if(modale){
+						 const deleteModal = bootstrap.Modal.getInstance(modale);
+						deleteModal.hide();
+						getTable();
+				}
+			}
+			}
+
+		
+		
+	</script>
+
 }
