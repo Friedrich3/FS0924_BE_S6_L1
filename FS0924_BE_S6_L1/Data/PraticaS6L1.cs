@@ -33,6 +33,10 @@ namespace FS0924_BE_S6_L1.Data
             modelBuilder.Entity<ApplicationUserRole>().HasOne(ur => ur.Role).WithMany(u => u.ApplicationUserRole).HasForeignKey(ur => ur.RoleId);
 
             modelBuilder.Entity<ApplicationUserRole>().Property(p=>p.Date).HasDefaultValueSql("GETDATE()").IsRequired(true);
+
+            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "1", Name = "Owner", NormalizedName="OWNER", ConcurrencyStamp="1" });
+            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "2", Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = "2" });
+            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "3", Name = "User", NormalizedName = "USER", ConcurrencyStamp = "3" });
         }
 
     }

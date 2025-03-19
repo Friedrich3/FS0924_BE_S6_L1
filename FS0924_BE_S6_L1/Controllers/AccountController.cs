@@ -24,19 +24,31 @@ namespace FS0924_BE_S6_L1.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid) {
                 TempData["Error"] = "Errore nella fase di login";
                 RedirectToAction("Index");
             }
-
+            var newUser = new ApplicationUser()
+            {
+                FirstName = registerViewModel.FirstName,
+                LastName = registerViewModel.LastName,
+                Email = registerViewModel.Email,
+                BirthDate = registerViewModel.BirthDate,
+            };
+            var result = await _userManager.CreateAsync(newUser, registerViewModel.Password);
+            if (!result.Succeeded)
+            {
+                TempData["Error"] = "errore in fase di registrazione";
+                RedirectToAction("Register");
+            }
 
 
             return RedirectToAction("Index");

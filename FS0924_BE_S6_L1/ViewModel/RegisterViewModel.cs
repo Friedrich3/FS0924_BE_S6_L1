@@ -17,6 +17,7 @@ namespace FS0924_BE_S6_L1.ViewModel
         public required string Email { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public required DateOnly BirthDate { get; set; }
         [Required]
         [StringLength(256, MinimumLength = 8)]
