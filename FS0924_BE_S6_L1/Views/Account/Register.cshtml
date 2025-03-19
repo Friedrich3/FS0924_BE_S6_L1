@@ -3,42 +3,44 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="container">
+ <div class="container">
 	<div class="row">
-		<div class=" col-3"></div>
-		<div class=" col-6">
-			<form class="row g-3" method="post" asp-controller="Account" asp-action="Register">
+		<div class=" col-4"></div>
+		<div class=" col-4 mt-5 border border-2  shadow-lg">
+			<form class="row g-3 py-3" method="post" asp-controller="Account" asp-action="Register">
 				
 				<div class="col-6">
-					<label for="Nome" class="form-label">Nome</label>
+					<label for="Nome" class="form-label fw-bold text-secondary">Nome</label>
 					<input type="text" class="form-control" id="Nome" placeholder="inserisci il tuo nome..." asp-for="FirstName" required>
 				</div>
 				<div class="col-6">
-					<label for="Cognome" class="form-label">Cognome</label>
+					<label for="Cognome" class="form-label fw-bold text-secondary">Cognome</label>
 					<input type="text" class="form-control" id="Cognome" placeholder="inserisci il tuo cognome..." asp-for="LastName" required>
 				</div>
 				<div class="col-md-12">
-					<label for="inputEmail" class="form-label">Email</label>
+					<label for="inputEmail" class="form-label fw-bold text-secondary">Email</label>
 					<input type="email" class="form-control" id="inputEmail" asp-for="Email" placeholder="mario.rossi@email.it" required>
 				</div>
 				<br />
-				<div class="col-md-12">
-					<label for="birthdate" class="form-label">Data di Nascita</label>
+				<div class="col-md-8">
+					<label for="birthdate" class="form-label fw-bold text-secondary">Data di Nascita</label>
 					<input type="date" class="form-control" id="birthdate" asp-for="BirthDate" required>
 				</div>
-				<div class="col-md-6">
-					<label for="inputPassword4" class="form-label">Password</label>
+				<div class="col-md-12">
+					<label for="inputPassword4" class="form-label fw-bold text-secondary">Password</label>
 					<input type="password" class="form-control" id="inputPassword4" asp-for="Password" required>
 				</div>
-				<div class="col-md-6">
-					<label for="confermaPassword" class="form-label">Conferma Password</label>
+				<div class="col-md-12">
+					<label for="confermaPassword" class="form-label fw-bold text-secondary">Conferma Password</label>
 					<input type="password" class="form-control" id="confermaPassword" asp-for="ConfermaPassword" required>
 				</div>
 				<div class="col-12 text-center">
-					<button type="submit" class="btn btn-primary">Sign in</button>
+					<button type="submit" class="btn btn-primary">Registrati</button>
 				</div>
+				<small class="text-secondary">Se sei gia registrato <a asp-action="Login" asp-controller="Account">clicca qui</a> per andare al log-in</small>
 			</form>
 		</div>
-		<div class=" col-3"></div>
+		<div class=" col-4"></div>
 	</div>
-</div>
+</div> 
+

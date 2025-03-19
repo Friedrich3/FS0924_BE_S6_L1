@@ -1,0 +1,55 @@
+﻿@model LoginViewModel
+@{
+	ViewData["Title"] = "Login";
+}
+
+@* <div class="container">
+	<div class="row">
+		<div class=" col-3"></div>
+		<div class=" col-6">
+			<form class="row g-3" method="post" asp-controller="Account" asp-action="Login">
+				<div class="col">
+					<label for="inputEmail" class="form-label">Email</label>
+					<input type="email" class="form-control" id="inputEmail" asp-for="Email" placeholder="mario.rossi@email.it" required>
+				</div>
+				<div class="col">
+					<label for="inputPassword4" class="form-label">Password</label>
+					<input type="password" class="form-control" id="inputPassword4" asp-for="Password" required>
+				</div>
+				<div class="col-12 text-center">
+					<button type="submit" class="btn btn-primary">Sign in</button>
+				</div>
+
+			</form>
+			<small>Se non sei ancora registrato <a asp-action="Register" asp-controller="Account">clicca qui</a> per registrarti</small>
+		</div>
+		<div class=" col-3"></div>
+	</div>
+</div> *@
+<div class="container-login">
+	<div class="screen">
+		<div class="screen__content">
+			<form class="login" method="post" asp-controller="Account" asp-action="Login">
+				<div class="login__field">
+					<i class="button__icon bi bi-person-circle"></i>
+					<input type="text" class="login__input" placeholder="Email..." asp-for="Email" required>
+				</div>
+				<div class="login__field">
+					<i class="button__icon bi bi-key-fill"></i>
+					<input type="password" class="login__input" placeholder="Password" asp-for="Password" required>
+				</div>
+				<button class="button login__submit">
+					<span class="button__text">Log In Now</span>
+					<i class="button__icon bi bi-chevron-right"></i>
+				</button>
+			</form>
+		</div>
+		<div class="screen__background">
+			<span class="screen__background__shape screen__background__shape4"></span>
+			<span class="screen__background__shape screen__background__shape3"></span>
+			<span class="screen__background__shape screen__background__shape2"></span>
+			<span class="screen__background__shape screen__background__shape1"></span>
+		</div>
+			<small class="text-secondary">Se non sei ancora registrato <a asp-action="Register" asp-controller="Account">clicca qui</a> per registrarti</small>
+	</div>
+</div>

@@ -24,6 +24,32 @@ namespace FS0924_BE_S6_L1.Controllers
             return View();
         }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                if (!ModelState.IsValid)
+                {
+                    TempData["Error"] = "Errore nella fase di login";
+                    RedirectToAction("Login");
+                }
+            }
+            var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+            if (user == null) 
+            {
+                TempData["Error"] = "Nome Utente o Password errati!";
+                RedirectToAction("Login");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
         public IActionResult Register()
         {
             return View();
@@ -33,14 +59,15 @@ namespace FS0924_BE_S6_L1.Controllers
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid) {
-                TempData["Error"] = "Errore nella fase di login";
-                RedirectToAction("Index");
+                TempData["Error"] = "Errore nella fase di registrazione";
+                RedirectToAction("Register");
             }
             var newUser = new ApplicationUser()
             {
                 FirstName = registerViewModel.FirstName,
                 LastName = registerViewModel.LastName,
                 Email = registerViewModel.Email,
+                UserName = registerViewModel.Email,
                 BirthDate = registerViewModel.BirthDate,
             };
             var result = await _userManager.CreateAsync(newUser, registerViewModel.Password);
@@ -49,6 +76,8 @@ namespace FS0924_BE_S6_L1.Controllers
                 TempData["Error"] = "errore in fase di registrazione";
                 RedirectToAction("Register");
             }
+            var user = await _userManager.FindByEmailAsync(newUser.Email);
+            await _userManager.AddToRoleAsync(user, "User");
 
 
             return RedirectToAction("Index");
