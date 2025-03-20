@@ -18,25 +18,16 @@ namespace FS0924_BE_S6_L1.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Studente>().HasData(
-                new Studente()
-                {
-                   StudenteId = Guid.Parse("7B3C3520-95C5-4E9B-B7CE-D29EEE9319C1"),
-                   Nome = "Federico",
-                   Cognome="Tonti",
-                   Email = "federico.tonti@gmail.com",
-                   DataDiNascita = new DateTime(1996,10,29)
-                }
-                );
+            
 
             modelBuilder.Entity<ApplicationUserRole>().HasOne(ur => ur.User).WithMany(u => u.ApplicationUserRole).HasForeignKey(ur=> ur.UserId);
             modelBuilder.Entity<ApplicationUserRole>().HasOne(ur => ur.Role).WithMany(u => u.ApplicationUserRole).HasForeignKey(ur => ur.RoleId);
 
             modelBuilder.Entity<ApplicationUserRole>().Property(p=>p.Date).HasDefaultValueSql("GETDATE()").IsRequired(true);
 
-            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "1", Name = "Owner", NormalizedName="OWNER", ConcurrencyStamp="1" });
-            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "2", Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = "2" });
-            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "3", Name = "User", NormalizedName = "USER", ConcurrencyStamp = "3" });
+            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "E47D581A-E477-40DA-AC5D-276F07F59142", Name = "Admin", NormalizedName="ADMIN", ConcurrencyStamp= "E47D581A-E477-40DA-AC5D-276F07F59142" });
+            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "EB589A41-5B71-41E7-A754-81764E7CCA23", Name = "Docente", NormalizedName = "DOCENTE", ConcurrencyStamp = "EB589A41-5B71-41E7-A754-81764E7CCA23" });
+            modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole() { Id = "DB5AE2D5-1966-4885-82BF-05FB79EEDDF5", Name = "Studente", NormalizedName = "STUDENTE", ConcurrencyStamp = "DB5AE2D5-1966-4885-82BF-05FB79EEDDF5" });
         }
 
     }

@@ -1,10 +1,15 @@
-﻿using FS0924_BE_S6_L1.Models;
+﻿using System.Security.Claims;
+using FS0924_BE_S6_L1.Models;
 using FS0924_BE_S6_L1.ViewModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FS0924_BE_S6_L1.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -24,38 +29,16 @@ namespace FS0924_BE_S6_L1.Controllers
             return View();
         }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                if (!ModelState.IsValid)
-                {
-                    TempData["Error"] = "Errore nella fase di login";
-                    RedirectToAction("Login");
-                }
-            }
-            var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
-            if (user == null) 
-            {
-                TempData["Error"] = "Nome Utente o Password errati!";
-                RedirectToAction("Login");
-            }
-
-            return RedirectToAction("Index");
-        }
 
 
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid) {
@@ -77,12 +60,63 @@ namespace FS0924_BE_S6_L1.Controllers
                 RedirectToAction("Register");
             }
             var user = await _userManager.FindByEmailAsync(newUser.Email);
-            await _userManager.AddToRoleAsync(user, "User");
+            await _userManager.AddToRoleAsync(user, "Studente");
 
 
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
 
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                    TempData["Error"] = "Errore nella fase di login";
+                    RedirectToAction("Login");
+            }
+            var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+            if (user == null)
+            {
+                TempData["Error"] = "Nome Utente o Password errati!";
+                RedirectToAction("Login");
+            }
+            var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, true,false);
+            if (result == null)
+            {
+                TempData["Error"] = "Nome Utente o Password errati!";
+                RedirectToAction("Login");
+            }
+            var roles = await _signInManager.UserManager.GetRolesAsync(user);
+            List<Claim> claims = new List<Claim>();
+
+            claims.Add(new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"));
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
+            claims.Add(new Claim(ClaimTypes.GivenName, user.Email));
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role , role));
+            }
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme );
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index","Home");
+        }
     }
 }

@@ -34,6 +34,7 @@ builder.Services.AddAuthentication(options =>
     options.Cookie.Name = "LoginCookie";
     options.Cookie.HttpOnly = true;
     options.ExpireTimeSpan = TimeSpan.FromDays(1);
+    //options.SlidingExpiration = true; SERVE PER REFRESHARE IL TOKEN DALL ULTIMA VOLTA CHE SI E' LOGGATI
 });
  builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddScoped<SignInManager<ApplicationUser>>();

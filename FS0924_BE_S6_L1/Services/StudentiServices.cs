@@ -54,7 +54,7 @@ namespace FS0924_BE_S6_L1.Services
             try
             {
                 var studente = await _context.Studenti.FindAsync(id);
-                if(studente == null)
+                if (studente == null)
                 {
                     return null;
                 }
@@ -90,7 +90,7 @@ namespace FS0924_BE_S6_L1.Services
             }
         }
 
-        public async Task<bool>DeleteStudent( Guid id)
+        public async Task<bool> DeleteStudent(Guid id)
         {
             try
             {

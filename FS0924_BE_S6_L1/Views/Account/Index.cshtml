@@ -1,12 +1,12 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿ @using System.Security.Claims;
 @{
+    ViewData["Title"] = "Index";
 }
 
 
 <div class="container">
     <div class="row">
-        <h3>PAGINA PROFILO UTENTE</h3>
+        <h3>Bentornato @User.Identity.Name</h3> 
+        <p>@User.FindFirst(ClaimTypes.Email).Value</p>
     </div>
 </div>
